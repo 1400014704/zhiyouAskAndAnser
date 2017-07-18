@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>回答-智游问答</title>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<style type="text/css">
+			body {
+				padding-top: 60px;
+			}
+			
+			.navbar-title {
+				font-size: 18px;
+				text-align: center;
+				color: #9D9D9D;
+				padding: 15px;
+				line-height: 20px;
+			}
+			
+			.glyphicon {
+				cursor: pointer;
+			}
+			
+			img {
+				width: 64px;
+				height: 64px;
+				border-radius: 50%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="row">
+					<div class="navbar-title">
+						<span id="goBack" class="glyphicon glyphicon-chevron-left pull-left"></span> 回答
+						<span id="home" class="glyphicon glyphicon-home pull-right"></span>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<form action="/question/ask" method="post">
+				<!-- 回答输入框 -->
+				<div class="form-group">
+					<textarea class="form-control" name="content" rows="10" cols="" placeholder="请详细填写回答内容"></textarea>
+				</div>
+				<!-- 提交按钮 -->
+				<input type="submit" class="btn btn-success form-control" value="回答" />
+			</form>
+		</div>
+
+		<div class="modal fade" role="dialog" id="myModal">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">智游教育</h4>
+					</div>
+					<div class="modal-body">
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
+<script src="js/jquery.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="js/answer.js"></script>
