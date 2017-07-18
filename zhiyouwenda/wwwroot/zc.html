@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<style type="text/css">
+			body {
+				padding-top: 60px;
+			}
+			
+			.navbar-title {
+				font-size: 18px;
+				text-align: center;
+				color: #9D9D9D;
+				padding: 15px;
+				line-height: 20px;
+			}
+			
+			.glyphicon {
+				cursor: pointer;
+			}
+			
+			img {
+				width: 64px;
+				height: 64px;
+				border-radius: 50%;
+			}
+			
+			input {
+				width: 100%;
+				margin-top: 20px;
+				height: 30px;
+				border: none;
+				border: 1px solid forestgreen;
+				border-radius: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- 导航条 -->
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="row">
+					<div class="navbar-title">
+						<span id="goBack" class="glyphicon glyphicon-chevron-left pull-left"></span> 注册
+						<span id="home" class="glyphicon glyphicon-home pull-right"></span>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<!-- 注册表单 -->
+		<div class="container">
+			<form action="/zc" method="post">
+
+				<input type="text" class="form-control" name="username" required pattern="^[a-zA-Z0-9\u4e00-\u9fa5]{2,16}$" placeholder="请填写昵称" />
+				<input type="password" class="form-control" name="pwd" id="pwd" required pattern="^.{6,16}" placeholder="请填写密码" />
+				<input type="password" class="form-control" name="pwds" id="pwds" required pattern="^.{6,16}" placeholder="请再次填写密码" />
+				<label for="male">
+						<input type="radio" name="isMale" value="true" id="male" checked />
+						先生
+					</label>
+				<label for="female">
+						<input type="radio" name="isMale" value="false" id="female" />
+						女士
+					</label>
+				<input type="email" class="form-control" name="email" required pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" placeholder="请填写邮箱" /><br /><br />
+				<select name="course" class="form-control">
+					<option value="HTML5" selected>HTML5</option>
+					<option value="iOS" selected>iOS</option>
+					<option value="Android" selected>Android</option>
+				</select>
+				<input style="background-color: darkgreen;" type="submit" class="btn btn-success form-control" value="注册" />
+			</form>
+		</div>
+	</body>
+	<script src="jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		$('form').submit(function(event) {
+			//		event.preventDefault();
+			var password = $('input[type=password]').eq(0).val()
+			var passwords = $('input[type=password]').eq(1).val()
+			if(password != passwords) {
+				alert('两次输入的密码不一致')
+			}
+		})
+		$('.pull-left').click(function() {
+			location.href = 'login.html'
+		})
+		$('.pull-right').click(function() {
+			location.href = 'index.html'
+		})
+	</script>
+
+</html>
