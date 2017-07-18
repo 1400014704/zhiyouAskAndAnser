@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<style type="text/css">
+			body {
+				padding-top: 60px;
+			}
+			
+			.navbar-title {
+				font-size: 18px;
+				text-align: center;
+				color: #9D9D9D;
+				padding: 15px;
+				line-height: 20px;
+			}
+			
+			.glyphicon {
+				cursor: pointer;
+			}
+			
+			img {
+				width: 64px;
+				height: 64px;
+				border-radius: 50%;
+			}
+		</style>
+		<title>智游问答</title>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="row">
+					<a href="#" class="navbar-brand">智游教育</a>
+					<div class="navbar-title pull-right text-right">
+						<!-- 提问图标 -->
+						<span id="ask">
+                            <!--加号 ➕ -->
+							<span class="glyphicon glyphicon-plus"></span> 提问
+						</span>
+						<!--&#x3000; 一个中文汉字的宽度-->
+						<!-- 一个空格 space 大小 -->
+						&nbsp;&nbsp;&nbsp;
+						<!-- 用户图标 -->
+						<span id="user" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-user"></span>
+						<!--预留一个span标签来存放用户昵称-->
+						<span></span>
+						</span>
+						<!-- 下拉菜单 -->
+						<ul class="dropdown-menu dropdown-menu-right" style="min-width: 90px;">
+							<li>
+								<a href="个人资料.html" class="text-right">个人资料</a>
+							</li>
+							<!--分隔线-->
+							<li class="divider"></li>
+							<li id="logout">
+								<a class="text-right">退出登陆</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- 创建容器，展示所有问题 -->
+		<div class="container questions"> </div>
+	</body>
+
+</html>
+<script src="js/jquery.js"></script>
+<!--<script src="js/jquery.cookie.js"></script>-->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<!--导入第一个页面脚本-->
+<script src="js/first.js"></script>
