@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js "></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/jquery.cookie.js"></script>
 		<style type="text/css">
 			body {
 				padding-top: 60px;
@@ -26,54 +30,142 @@
 				height: 64px;
 				border-radius: 50%;
 			}
+			
+			.dropdown-menu-right {
+				min-width: 90px;
+			}
 		</style>
-		<title>智游问答</title>
 	</head>
 
 	<body>
+
 		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="row">
-					<a href="#" class="navbar-brand">智游教育</a>
-					<div class="navbar-title pull-right text-right">
-						<!-- 提问图标 -->
-						<span id="ask">
-                            <!--加号 ➕ -->
-							<span class="glyphicon glyphicon-plus"></span> 提问
-						</span>
-						<!--&#x3000; 一个中文汉字的宽度-->
-						<!-- 一个空格 space 大小 -->
-						&nbsp;&nbsp;&nbsp;
-						<!-- 用户图标 -->
-						<span id="user" class="dropdown-toggle" data-toggle="dropdown">
-							<span class="glyphicon glyphicon-user"></span>
-						<!--预留一个span标签来存放用户昵称-->
-						<span></span>
-						</span>
-						<!-- 下拉菜单 -->
-						<ul class="dropdown-menu dropdown-menu-right" style="min-width: 90px;">
-							<li>
-								<a href="个人资料.html" class="text-right">个人资料</a>
-							</li>
-							<!--分隔线-->
-							<li class="divider"></li>
-							<li id="logout">
-								<a class="text-right">退出登陆</a>
-							</li>
-						</ul>
-					</div>
-				</div>
+			<a href="#" class="navbar-brand">智游教育</a>
+			<div class="navbar-title pull-right text-right">
+				<span id="ask">
+					<span class="glyphicon glyphicon-plus">提问</span> &nbsp;&nbsp;&nbsp;
+				</span>
+				<span id="user" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="glyphicon glyphicon-user"></span>
+				<span></span>
+				</span>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li>
+						<a href="./information.html" class="text-right">个人资料</a>
+					</li>
+					<li class="divider"></li>
+					<li id="logout">
+						<a class="text-right">退出登录</a>
+					</li>
+				</ul>
 			</div>
-			<!--<button>aaaa</button>-->
 		</nav>
-		<!-- 创建容器，展示所有问题 -->
+
 		<div class="container questions"> </div>
 	</body>
-	<script src="jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript">
-		
-		$('.glyphicon-user').click(function(){
-			location.href='login.html'
-		})
-	</script>
+
 </html>
+<script type="text/javascript">
+	var petname = $.cookie('petname');
+	
+	if(petname) {
+		$('#user').find('span').last().text(petname);
+	} 
+	else {
+		$('#user').find('span').last().text('登录').end().end().removeAttr('data-toggle').click(function() {
+			location.href = 'login.html'
+	})
+	}
+
+	$('#ask').click(function() {
+		petname ? location.href = 'ask.html' : location.href = 'login.html'
+
+	})
+
+	
+	$.get('/question/all', function(resData) {
+		var htmlStr = '';
+		
+		for(var i = 0; i < resData.length; i++) {
+			
+			var question = resData[i];
+			
+			htmlStr += '<div class="media" data-question="' + new Date(question.time).getTime() + '">'
+			
+			htmlStr += '<div class="media-left"><a>'
+			htmlStr += '<img class="media-object" src="../uploads/' + question.petname + '.jpg" onerror="defaultHeaderImage(this)">'
+			htmlStr += '</a></div>'
+			
+			htmlStr += '<div class="media-body">'
+			htmlStr += '<h4 class="media-heading">' + question.petname + '</h4>'
+			htmlStr += question.content
+			htmlStr += '<div class="media-footing">' + formatDate(new Date(question.time)) + '&#x3000;' + formatIp(question.ip) + '</div>';
+			htmlStr += '</div></div>'
+
+			
+			if(question.answers) {
+				
+				for(var j = 0; j < question.answers.length; j++) {
+					var answer = question.answers[j];
+					
+					htmlStr += '<div class="media media-child">'
+					
+					htmlStr += '<div class="media-body">'
+					htmlStr += '<h4 class="media-heading">' + answer.petname + '</h4>'
+					htmlStr += answer.content
+					htmlStr += '<div class="media-footing">' + formatDate(new Date(answer.time)) + '&#x3000;' + formatIp(answer.ip) + '</div>';
+					htmlStr += '</div>'
+					
+					htmlStr += '<div class="media-right"><a>'
+					htmlStr += '<img class="media-object" src="../uploads/' + answer.petname + '.jpg" onerror="defaultHeaderImage(this)">'
+					htmlStr += '</a></div></div>'
+				}
+			}
+			htmlStr += '<hr>'
+
+		}
+		$('.questions').html(htmlStr);
+	});
+	
+	function formatDate(time) {
+		var y = time.getFullYear();
+		var M = time.getMonth() + 1;
+		var d = time.getDate();
+		var h = time.getHours();
+		var m = time.getMinutes();
+		M = M < 10 ? '0' + M : M;
+		d = d < 10 ? '0' + d : d;
+		h = h < 10 ? '0' + h : h;
+		m = m < 10 ? '0' + m : m;
+		
+		return y + '-' + M + '-' + d + ' ' + h + ':' + m;
+	}
+
+	function formatIp(ip) {
+		console.log(ip);
+		if(ip.startsWith('::1')) {
+			return 'localhost';
+		} else {
+			return ip.substr(7);
+		}
+	}
+
+	$('.questions').on('click', '.media[data-question]', function() {
+		if(petname) {
+			$.cookie('question', $(this).data('question'));
+			location.href = 'answer.html';
+		} else {
+			location.href = 'login.html';
+		}
+	})
+
+	function defaultHeaderImage(tou) {
+		tou.src = '../timg.jpg';
+	}
+
+	$('#logout').click(function() {
+		$.get('/user/logout', function(resData) {
+			location.reload();
+		})
+	})
+</script>

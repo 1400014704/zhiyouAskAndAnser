@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-	<meta charset="UTF-8" />
-	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-	<title></title>
-	<style type="text/css">
-				body {
+
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js "></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+		<title></title>
+		<style type="text/css">
+			body {
 				padding-top: 60px;
 			}
 			
@@ -26,7 +30,8 @@
 				height: 64px;
 				border-radius: 50%;
 			}
-			input{
+			
+			input {
 				width: 100%;
 				margin-top: 20px;
 				height: 30px;
@@ -34,31 +39,51 @@
 				border: 1px solid forestgreen;
 				border-radius: 5px;
 			}
-	</style>
-</head>
-<body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container ">
-					<div class="navbar-title">
-						<span  class="glyphicon glyphicon-chevron-left pull-left"></span>
-						注册
-						<span  class="glyphicon glyphicon-plus-sign pull-right"></span>
-					</div>
+		</style>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-title">
+				<span id="goBack" class="glyphicon glyphicon-chevron-left pull-left"></span> 登陆
+				<span id="register" class="glyphicon glyphicon-plus-sign pull-right"></span>
 			</div>
 		</nav>
-		
-		<div class="container">
-			<form action="/login" method="post">
-				<input type="text" name="username" id="" value=""  placeholder="账号" required pattern="^[a-zA-Z0-9\u4e00-\u9fa5]{2,16}$"/>
-				<input type="password" name="pwd" id="pwd" value="" placeholder="密码" required pattern="^.{6,16}"/>
-				<input style="background-color: darkgreen;" type="submit" value="登录"/>
-			</form>
-		</div>
-</body>
-<script src="jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-		$('.pull-right').click(function(){
-			location.href='zc.html'
+
+		<form action="/user/login" method="post">
+			<!-- 昵称 -->
+			<div class="form-group">
+				<input type="text" class="form-control" name="petname" required pattern="^[a-zA-Z0-9\u4e00-\u9fa5]{2,16}$" placeholder="请填写昵称" />
+			</div>
+			<!-- 密码 -->
+			<div class="form-group">
+				<input type="password" class="form-control" name="password" required pattern="^.{6,16}" placeholder="请填写密码" />
+			</div>
+			<!-- 提交按钮 -->
+			<input type="submit" class="btn btn-success form-control" value="登陆" />
+		</form>
+
+	</body>
+	<script type="text/javascript">
+		$('form').submit(function(event) {
+			event.preventDefault();
+			var data = $(this).serialize();
+			$.post('/user/login', data, function(resData) {
+				if(resData.code == '1') {
+					location.href = 'index.html';
+					alert('登录成功');
+				} else {
+					alert('密码错啦')
+				}
+			});
+		});
+
+		$('.pull-left').click(function() {
+			history.go(-1)
 		})
-</script>
+		$('.pull-right').click(function() {
+			location.href = 'zc.html'
+		})
+	</script>
+
 </html>
